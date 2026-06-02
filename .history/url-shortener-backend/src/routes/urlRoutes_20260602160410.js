@@ -12,35 +12,10 @@ const {
     bulkCreateUrls
 } = require("../controllers/urlController");
 
-router.post(
-    "/create",
-    authMiddleware,
-    createUrl
-);
-
-router.get(
-    "/all",
-    authMiddleware,
-    getAllUrls
-);
-
-router.delete(
-    "/:id",
-    authMiddleware,
-    deleteUrl
-);
-
-router.put(
-    "/:id",
-    authMiddleware,
-    updateUrl
-);
-
-router.post(
-    "/bulk-upload",
-    authMiddleware,
-    upload.single("file"),
-    bulkCreateUrls
-);
+router.post("/create", createUrl);
+router.get("/all", getAllUrls);
+router.delete("/:id", deleteUrl);
+router.put("/:id", updateUrl);
+router.post("/bulk-upload", upload.single("file"), bulkCreateUrls);
 router.get("/:shortCode", redirectUrl);
 module.exports = router;

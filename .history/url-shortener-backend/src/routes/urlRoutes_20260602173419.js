@@ -11,7 +11,11 @@ const {
     redirectUrl,
     bulkCreateUrls
 } = require("../controllers/urlController");
-
+router.get(
+    "/all",
+    authMiddleware,
+    getAllUrls
+);
 router.post(
     "/create",
     authMiddleware,

@@ -10,7 +10,7 @@ const UAParser = require("ua-parser-js");
 exports.createUrl = async (req, res) => {
     try {
 
-        const { originalUrl,customAlias,expiryDate,expiryDays, } = req.body;
+        const { originalUrl,customAlias,expiryDate,expiryDays } = req.body;
         let finalExpiryDate = null;
 
         if (expiryDays) {
@@ -38,10 +38,8 @@ exports.createUrl = async (req, res) => {
         const url = await Url.create({
             originalUrl,
             shortCode,
-            expiryDate: finalExpiryDate,
-            userId: req.user.id
+            expiryDate: finalExpiryDate
         });
-
         const shortUrl = `${process.env.BASE_URL}/${shortCode}`;
 
         const qrCode = await QRCode.toDataURL(shortUrl);
@@ -63,9 +61,7 @@ exports.createUrl = async (req, res) => {
 exports.getAllUrls = async (req, res) => {
     try {
 
-        const urls = await Url.find({
-            userId: req.user.id
-        });
+        const urls = await Url.find();
 
         const response = urls.map(url => ({
             ...url.toObject(),
@@ -133,16 +129,7 @@ exports.deleteUrl = async (req, res) => {
 
         const { id } = req.params;
 
-        const deletedUrl = await Url.findOneAndDelete({
-            _id: id,
-            userId: req.user.id
-        });
-
-        if (!deletedUrl) {
-            return res.status(404).json({
-                message: "URL not found or unauthorized"
-            });
-        }
+        await Url.findByIdAndDelete(id);
 
         res.json({
             message: "URL Deleted Successfully"
@@ -160,15 +147,11 @@ exports.updateUrl = async (req, res) => {
 
         const { id } = req.params;
         const { originalUrl, expiryDate } = req.body;
-
-        const url = await Url.findOne({
-            _id: id,
-            userId: req.user.id
-        });
+        const url = await Url.findById(id);
 
         if (!url) {
             return res.status(404).json({
-                message: "URL not found or unauthorized"
+                message: "URL not found"
             });
         }
 
@@ -233,8 +216,7 @@ exports.bulkCreateUrls = async (req, res) => {
                         originalUrl: row.originalUrl,
                         shortCode,
                         expiryDate: finalExpiryDate,
-                        bulkUpload: true,
-                        userId: req.user.id
+                        bulkUpload: true
                     });
 
                     createdUrls.push({
@@ -266,10 +248,12 @@ exports.bulkCreateUrls = async (req, res) => {
 exports.login = async (req, res) => {
     const token = jwt.sign(
         {
-            id: user._id,
-            email: user.email
+            id: user._id
         },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "7d"
+        }
     );
 
     res.json({
