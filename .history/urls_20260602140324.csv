@@ -1,0 +1,11 @@
+originalUrl,customAlias,expiryDays,expiryDate
+https://www.wikipedia.org,wiki,7,
+https://www.stackoverflow.com,stackoverflow,30,
+https://www.python.org,,1,
+https://www.mozilla.org,mozilla,,2026-07-01
+https://www.oracle.com/java,java-docs,15,
+https://react.dev,react,,2026-08-15
+https://nodejs.org,nodejs-link,10,
+https://www.mongodb.com,mongodb,,2026-09-01
+https://www.github.com,,5,
+https://www.linkedin.com/company/microsoft,microsoft-link,20,
