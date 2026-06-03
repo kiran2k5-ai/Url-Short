@@ -17,20 +17,19 @@ function Landing() {
             <div className="pt-16">
                 <Hero />
 
-                <Stats />
+            <Stats />
 
-                <Features />
+            <Features />
 
-                <HowItWorks />
+            <HowItWorks />
 
-                <Testimonials />
+            <Testimonials />
 
-                <Pricing />
+            <Pricing />
 
-                <CTA />
+            <CTA />
 
-                <Footer />
-            </div>
+            <Footer />
 
         </div>
     );
