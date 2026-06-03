@@ -1,0 +1,190 @@
+import { useState, useEffect } from "react";
+import { useData } from "../context/DataContext";
+import DashboardLayout from "../layouts/DashboardLayout";
+import AnalyticsChart from "../components/AnalyticsChart";
+import { TrendingUp, MousePointerClick, Link2, Activity } from "lucide-react";
+
+function Analytics() {
+    const { urls, analytics, fetchAnalytics } = useData();
+    const [selectedUrlId, setSelectedUrlId] = useState(null);
+
+    useEffect(() => {
+        if (urls.length > 0 && !selectedUrlId) {
+            setSelectedUrlId(urls[0]._id);
+            fetchAnalytics(urls[0]._id);
+        }
+    }, [urls, selectedUrlId, fetchAnalytics]);
+
+    useEffect(() => {
+        if (selectedUrlId && !analytics[selectedUrlId]) {
+            fetchAnalytics(selectedUrlId);
+        }
+    }, [selectedUrlId, analytics, fetchAnalytics]);
+
+    const selectedUrl = urls.find(u => u._id === selectedUrlId);
+    const selectedAnalytics = selectedUrlId ? analytics[selectedUrlId] : null;
+
+    const totalClicks = urls.reduce((sum, url) => sum + (url.clickCount || 0), 0);
+    const avgClicks = urls.length > 0 ? Math.round(totalClicks / urls.length) : 0;
+
+    return (
+        <DashboardLayout>
+            <div className="p-8">
+                <div>
+                    <h1 className="text-5xl font-bold">Analytics</h1>
+                    <p className="text-gray-500 mt-2">
+                        Monitor traffic and performance of your links
+                    </p>
+                </div>
+
+                {/* Overview Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm">Total Clicks</p>
+                                <p className="text-3xl font-bold mt-2">{totalClicks}</p>
+                            </div>
+                            <MousePointerClick className="text-indigo-600" size={32} />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm">Active Links</p>
+                                <p className="text-3xl font-bold mt-2">{urls.length}</p>
+                            </div>
+                            <Link2 className="text-green-600" size={32} />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm">Avg Clicks/Link</p>
+                                <p className="text-3xl font-bold mt-2">{avgClicks}</p>
+                            </div>
+                            <Activity className="text-purple-600" size={32} />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-500 text-sm">Top Performer</p>
+                                <p className="text-3xl font-bold mt-2">
+                                    {urls.length > 0 ? Math.max(...urls.map(u => u.clickCount || 0)) : 0}
+                                </p>
+                            </div>
+                            <TrendingUp className="text-orange-600" size={32} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Analytics Chart */}
+                <div className="mt-8">
+                    <AnalyticsChart />
+                </div>
+
+                {/* Link-specific Analytics */}
+                {urls.length > 0 && (
+                    <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* URL Selector */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                <h3 className="font-semibold mb-4">Select URL</h3>
+                                <div className="space-y-2 max-h-96 overflow-y-auto">
+                                    {urls.map(url => (
+                                        <button
+                                            key={url._id}
+                                            onClick={() => setSelectedUrlId(url._id)}
+                                            className={`w-full text-left p-3 rounded-lg transition ${
+                                                selectedUrlId === url._id
+                                                    ? "bg-indigo-600 text-white"
+                                                    : "bg-gray-100 hover:bg-gray-200 text-gray-900"
+                                            }`}
+                                        >
+                                            <p className="font-mono text-sm">{url.shortCode}</p>
+                                            <p className="text-xs opacity-75 truncate">{url.originalUrl}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* URL Analytics Details */}
+                        <div className="lg:col-span-2">
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                {selectedUrl && (
+                                    <>
+                                        <h3 className="font-semibold text-lg mb-4">{selectedUrl.shortCode}</h3>
+
+                                        <div className="grid grid-cols-2 gap-4 mb-6">
+                                            <div className="bg-gray-50 rounded-lg p-4">
+                                                <p className="text-gray-600 text-sm">Total Clicks</p>
+                                                <p className="text-2xl font-bold mt-2">{selectedUrl.clickCount || 0}</p>
+                                            </div>
+                                            <div className="bg-gray-50 rounded-lg p-4">
+                                                <p className="text-gray-600 text-sm">Created</p>
+                                                <p className="text-sm font-medium mt-2">
+                                                    {new Date(selectedUrl.createdAt).toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {selectedAnalytics && (
+                                            <>
+                                                <h4 className="font-semibold mb-3">Recent Visits</h4>
+                                                {selectedAnalytics.recentVisits?.length > 0 ? (
+                                                    <div className="space-y-3">
+                                                        {selectedAnalytics.recentVisits.map((visit, idx) => (
+                                                            <div key={idx} className="border-l-4 border-indigo-200 pl-3 py-2">
+                                                                <p className="font-medium text-sm">
+                                                                    {visit.device} • {visit.browser}
+                                                                </p>
+                                                                <p className="text-xs text-gray-500">
+                                                                    {visit.city}, {visit.country}
+                                                                </p>
+                                                                <p className="text-xs text-gray-400 mt-1">
+                                                                    {new Date(visit.visitedAt).toLocaleString()}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-gray-400 text-sm">No visits yet</p>
+                                                )}
+                                            </>
+                                        )}
+
+                                        <div className="mt-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                            <p className="text-xs text-gray-600">Original URL</p>
+                                            <a
+                                                href={selectedUrl.originalUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-sm text-indigo-600 hover:underline break-all"
+                                            >
+                                                {selectedUrl.originalUrl}
+                                            </a>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {urls.length === 0 && (
+                    <div className="mt-8 bg-white rounded-2xl shadow-lg p-12 text-center">
+                        <p className="text-gray-400 text-lg">No analytics data available</p>
+                        <p className="text-gray-400 text-sm mt-2">Create some shortened URLs to see analytics</p>
+                    </div>
+                )}
+            </div>
+        </DashboardLayout>
+    );
+}
+
+export default Analytics;

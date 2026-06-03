@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+/* ================================== */
+/* GLOBAL STYLES & ANIMATIONS */
+/* ================================== */
+
+* {
+    transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #f8fafc;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+    body {
+        font-size: 13px;
+    }
+    
+    h1 { font-size: 28px !important; }
+    h2 { font-size: 24px !important; }
+    h3 { font-size: 20px !important; }
+    h4 { font-size: 18px !important; }
+    h5 { font-size: 16px !important; }
+    h6 { font-size: 14px !important; }
+    p { font-size: 13px !important; }
+    button { font-size: 13px !important; }
+    label { font-size: 12px !important; }
+}
+
+@media (max-width: 430px) {
+    body {
+        font-size: 12px;
+    }
+    
+    h1 { font-size: 24px !important; }
+    h2 { font-size: 20px !important; }
+    h3 { font-size: 18px !important; }
+    h4 { font-size: 16px !important; }
+    p { font-size: 12px !important; }
+}
+
+/* ================================== */
+/* ANIMATIONS */
+/* ================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(91, 75, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(91, 75, 255, 0.6);
+    }
+}
+
+/* ================================== */
+/* ELEMENT ANIMATIONS */
+/* ================================== */
+
+/* Page transitions */
+main, section {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Cards with slide up */
+.bg-white {
+    animation: slideUp 0.4s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+/* Buttons */
+button {
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.3s ease-out;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Links */
+a {
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Form inputs */
+input, textarea, select {
+    animation: slideUp 0.3s ease-out;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #5b4bff;
+    box-shadow: 0 0 0 3px rgba(91, 75, 255, 0.1);
+    transform: scale(1.01);
+}
+
+/* ================================== */
+/* BLUR & SHADOW EFFECTS */
+/* ================================== */
+
+/* Soft shadows */
+.shadow-soft {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-medium {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-lg {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-xl {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Blur effects */
+.blur-xs {
+    backdrop-filter: blur(2px);
+}
+
+.blur-sm {
+    backdrop-filter: blur(4px);
+}
+
+.blur-md {
+    backdrop-filter: blur(8px);
+}
+
+.blur-lg {
+    backdrop-filter: blur(12px);
+}
+
+.blur-xl {
+    backdrop-filter: blur(16px);
+}
+
+/* Glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+.glass-dark {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* ================================== */
+/* RESPONSIVE UTILITIES */
+/* ================================== */
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+    .px-8 { @apply px-4 !important; }
+    .py-8 { @apply py-4 !important; }
+    .gap-8 { @apply gap-4 !important; }
+    .p-8 { @apply p-4 !important; }
+}
+
+/* Responsive grid */
+@media (max-width: 1024px) {
+    .lg\:grid-cols-5 { @apply grid-cols-3 !important; }
+    .lg\:grid-cols-4 { @apply grid-cols-2 !important; }
+    .lg\:grid-cols-3 { @apply grid-cols-2 !important; }
+}
+
+@media (max-width: 768px) {
+    .lg\:grid-cols-5 { @apply grid-cols-2 !important; }
+    .lg\:grid-cols-4 { @apply grid-cols-2 !important; }
+    .lg\:grid-cols-3 { @apply grid-cols-1 !important; }
+    .md\:grid-cols-2 { @apply grid-cols-1 !important; }
+}
+
+@media (max-width: 430px) {
+    .grid { @apply flex flex-col !important; }
+    .lg\:grid-cols-5 { @apply grid-cols-1 !important; }
+    .md\:grid-cols-2 { @apply grid-cols-1 !important; }
+}
+
+/* ================================== */
+/* LOADING STATES */
+/* ================================== */
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        #e2e8f0 25%,
+        #f1f5f9 50%,
+        #e2e8f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ================================== */
+/* FOCUS STYLES */
+/* ================================== */
+
+:focus-visible {
+    outline: 2px solid #5b4bff;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ================================== */
+/* SCROLLBAR STYLING */
+/* ================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ================================== */
+/* MODAL & OVERLAY ANIMATIONS */
+/* ================================== */
+
+.modal {
+    animation: scaleIn 0.3s ease-out;
+}
+
+.modal-overlay {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.toast {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* ================================== */
+/* TEXT ANIMATIONS */
+/* ================================== */
+
+.text-shimmer {
+    background: linear-gradient(
+        90deg,
+        #000 25%,
+        #333 50%,
+        #000 75%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s infinite;
+}
+
+/* ================================== */
+/* HOVER EFFECTS */
+/* ================================== */
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgba(91, 75, 255, 0.4);
+}
+
+.hover-blur:hover {
+    backdrop-filter: blur(8px);
+}
+
+/* ================================== */
+/* GRADIENT ANIMATIONS */
+/* ================================== */
+
+.gradient-text {
+    background: linear-gradient(135deg, #5b4bff 0%, #6d5fdf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gradient-hover:hover {
+    background: linear-gradient(135deg, #6d5fdf 0%, #5b4bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================================== */
+/* BADGE & TAG ANIMATIONS */
+/* ================================== */
+
+.badge {
+    animation: slideUp 0.3s ease-out;
+    display: inline-block;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+}
+
+/* ================================== */
+/* TABLE ANIMATIONS */
+/* ================================== */
+
+tbody tr {
+    animation: slideUp 0.3s ease-out;
+}
+
+tbody tr:hover {
+    background-color: rgba(91, 75, 255, 0.05);
+    transform: scale(1.01);
+}
+
+/* ================================== */
+/* RESPONSIVE TEXT */
+/* ================================== */
+
+.text-responsive {
+    font-size: clamp(12px, 2vw, 16px);
+}
+
+.heading-responsive {
+    font-size: clamp(18px, 5vw, 48px);
+}
+
+.subheading-responsive {
+    font-size: clamp(14px, 3vw, 24px);
+}
