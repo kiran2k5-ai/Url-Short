@@ -111,15 +111,6 @@ function Links() {
                             ) : (
                                 urls.map((url) => (
                                     <tr key={url._id} className="border-b hover:bg-gray-50 transition">
-                                        <td className="py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-mono">
-                                            <button
-                                                onClick={() => handleShortUrlClick(url)}
-                                                className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-2 rounded font-semibold transition hover:scale-105 active:scale-95 cursor-pointer"
-                                                title="Click to open and increment count"
-                                            >
-                                                {url.shortCode}
-                                            </button>
-                                        </td>
                                         <td className="py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm">
                                             <a
                                                 href={url.originalUrl}
@@ -133,8 +124,13 @@ function Links() {
                                                     : url.originalUrl}
                                             </a>
                                         </td>
+                                        <td className="py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-mono">
+                                            <code className="bg-gray-100 px-2 md:px-3 py-1 rounded text-xs">
+                                                {url.shortCode}
+                                            </code>
+                                        </td>
                                         <td className="py-3 md:py-4 px-2 md:px-4 font-semibold text-xs md:text-sm">
-                                            {localClickCounts[url._id] !== undefined ? localClickCounts[url._id] : (url.clickCount || 0)}
+                                            {url.clickCount || 0}
                                         </td>
                                         <td className="py-3 md:py-4 px-2 md:px-4">
                                             <span
