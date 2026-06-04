@@ -10,8 +10,21 @@ function RecentLinks() {
     const [deleteConfirm, setDeleteConfirm] = useState(null);
     const [editingUrl, setEditingUrl] = useState(null);
     const [previewQrUrl, setPreviewQrUrl] = useState(null);
+    const [localClickCounts, setLocalClickCounts] = useState({});
 
     const recentUrls = urls.slice(0, 5);
+
+    const handleShortUrlClick = (url) => {
+        // Increment local click count immediately
+        setLocalClickCounts(prev => ({
+            ...prev,
+            [url._id]: (prev[url._id] || url.clickCount || 0) + 1
+        }));
+        
+        // Open the short URL in new tab (this will register the click on backend)
+        const shortUrl = url.shortUrl || `https://url-short-caxa.onrender.com/${url.shortCode}`;
+        window.open(shortUrl, '_blank');
+    };
 
     const copyToClipboard = (shortUrl) => {
         navigator.clipboard.writeText(shortUrl);
@@ -55,8 +68,8 @@ function RecentLinks() {
                 <table className="w-full">
                     <thead>
                         <tr className="border-b">
-                            <th className="text-left py-4">Original URL</th>
                             <th className="text-left py-4">Short URL</th>
+                            <th className="text-left py-4">Original URL</th>
                             <th className="text-left py-4">Clicks</th>
                             <th className="text-left py-4">Status</th>
                             <th className="text-left py-4">Actions</th>
@@ -74,6 +87,15 @@ function RecentLinks() {
                             recentUrls.map((url) => (
                                 <tr key={url._id} className="border-b hover:bg-gray-50 transition">
                                     <td className="py-4 text-sm">
+                                        <button
+                                            onClick={() => handleShortUrlClick(url)}
+                                            className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-2 rounded font-semibold transition hover:scale-105 active:scale-95 cursor-pointer"
+                                            title="Click to open and increment count"
+                                        >
+                                            {url.shortCode}
+                                        </button>
+                                    </td>
+                                    <td className="py-4 text-sm">
                                         <a 
                                             href={url.originalUrl} 
                                             target="_blank" 
@@ -86,12 +108,7 @@ function RecentLinks() {
                                                 : url.originalUrl}
                                         </a>
                                     </td>
-                                    <td className="py-4 text-sm">
-                                        <code className="bg-gray-100 px-3 py-1 rounded">
-                                            {url.shortCode}
-                                        </code>
-                                    </td>
-                                    <td className="py-4 font-semibold">{url.clickCount || 0}</td>
+                                    <td className="py-4 font-semibold">{localClickCounts[url._id] !== undefined ? localClickCounts[url._id] : (url.clickCount || 0)}</td>
                                     <td className="py-4">
                                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(getStatus(url))}`}>
                                             {getStatus(url)}
