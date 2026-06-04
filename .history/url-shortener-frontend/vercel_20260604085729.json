@@ -6,8 +6,5 @@
     "VITE_API_URL": "https://url-short-caxa.onrender.com/api"
   },
   "installCommand": "npm install",
-  "devCommand": "npm run dev",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "devCommand": "npm run dev"
 }

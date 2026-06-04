@@ -76,8 +76,8 @@ function Links() {
                     <table className="w-full min-w-max text-sm">
                         <thead>
                             <tr className="border-b">
-                                <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Original URL</th>
                                 <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Short URL</th>
+                                <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Original URL</th>
                                 <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Clicks</th>
                                 <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Status</th>
                                 <th className="text-left py-3 md:py-4 px-2 md:px-4 text-xs md:text-sm font-semibold">Created</th>
